@@ -1,0 +1,158 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Template LaTeX
+% Versão 0.1 (29/10/2018)
+%
+% Este template foi desenvolvido para o II WPPGEEC
+% https://sites.google.com/view/upm-wppgeec/p%C3%A1gina-inicial
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%---------------------------------------------------------------------------------
+%%% Document configuration - Do not change
+\documentclass[a4paper,12pt]{article}
+\usepackage{geometry}
+\geometry{
+	a4paper,
+	total={180mm,257mm},
+	left=15mm,
+	top=10mm,
+}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[CE,CO]{WPPGEEC Proceedings, S\~{a}o Paulo, SP,  v.2, dez. 2018}
+\fancyfoot[LE,RO]{\thepage}
+\fancypagestyle{plain}{\pagestyle{fancy}}
+\usepackage[utf8]{inputenc}
+\usepackage{indentfirst}
+%%%
+%---------------------------------------------------------------------------------
+
+% Pacotes pessoais
+\usepackage{siunitx} % Required for alignment
+\usepackage{booktabs} % For prettier tables
+\usepackage{adjustbox}
+
+% \usepackage[english]{babel} % Pacote para lingua inglesa
+\usepackage[portuges]{babel} % Pacote para lingua portuguesa
+
+\title{REDES NEURAIS ARTIFICIAIS PARA PREDIÇÃO DAS PROPRIEDADES DE TRANSPORTE DE VALE EM NANOFITAS DE GRAFENO}
+
+\author{%
+	\textsc{Pablo Rhuam Cavalcante Silva}\\ % Primeiro autor
+	\normalsize Universidade Presbiteriana Mackenzie \\ % Instituição primeiro autor
+	\and
+	\textsc{Leandro A. Silva}\\% Segundo autor
+	\normalsize Universidade Presbiteriana Mackenzie \\ % Instituição segundo autor
+	\and
+	\textsc{D. A. Bahamon}\\% Segundo autor
+	\normalsize Universidade Presbiteriana Mackenzie \\ %
+}
+\date{\today}
+
+\begin{document}
+	\maketitle
+	
+	\begin{abstract}
+    Nós treinamos uma rede neural artificial para predizer as propriedades de  transporte de vale em nanofitas de grafeno de diferentes características físicas.
+	
+	\textbf{grafeno; perceptron de multiplas camadas; rede neural artificial}
+	\end{abstract}
+	
+	\section{INTRODUÇÃO} \label{sec:introduction}
+    O uso de deformações mecânicas para melhorar as propriedades eletrônicas e ópticas dos materiais é uma área relativamente nova. Deformações mecânicas são usadas entre outras coisas para aumentar a mobilidade eletrônica nos transístores.
+
+    Do ponto de vista eletrônico, os elétrons no grafeno sentem as deformações da rede através de um acoplamento com um vetor potencial pseudomagnético adicional. A conseqüência direta deste acoplamento é que as deformações locais não-uniformes, como deformações Gaussianas, se traduzem diretamente em um campo pseudomagnético efetivo; a magnitude deste campo pseudomagnético pode facilmente atingir mais de 300 tesla, atestando o forte impacto que a deformações Gaussianas têm nas propriedades eletrônicas. Do ponto de vista teórico, as funções de Green (FG) \cite{bahamon2017} são as ferramentas padrão para estudar as propriedades de transporte eletrônico em sistema de baixa dimensionailidade.
+
+    O presente trabalho visa treinar uma rede neural artificial (RNA) do tipo perceptron de múltiplas camadas (MLP) que seja capaz de predizer/inferir propriedades como condutividade elétrica e transporte de vale de nanofitas de grafeno com diferentes configurações em termos de largura, comprimento, número de deformações gaussianas, proporção entre a altura e largura das gaussianas, desvio padrão das bases das gaussianas, distância entre elas e energia.
+		
+% 		\textit{a)	Figures and Tables:} Place figures and tables at the top and bottom of columns. Avoid placing them in the middle of columns. Large figures and tables may span across both columns. Figure captions should be below the figures; table heads should appear above the tables. Insert figures and tables after they are cited in the text. Use the abbreviation Tab. \ref{tab:table1} for tables and Fig. \ref{fig:figure1} for figures, even at the beginning of a sentence.
+		
+% 		\begin{table}[!htb]
+% 			\centering
+% 			\begin{tabular}{|r|l|}
+% 				\hline
+% 				7C0 & hexadecimal \\
+% 				3700 & octal \\ \cline{2-2}
+% 				11111000000 & binary \\
+% 				\hline \hline
+% 				1984 & decimal \\
+% 				\hline
+% 			\end{tabular}
+% 			\label{tab:table1}
+% 			\caption{My caption}
+% 		\end{table}
+	
+% 		Figure Labels: Use 8 point Times New Roman for Figure labels. Use words rather than symbols or abbreviations when writing Figure axis labels to avoid confusing the reader. As an example, write the quantity “Magnetization”, or “Magnetization, M”, not just “M”. If including units in the label, present them within parentheses. Do not label axes only with units. In the example, write “Magnetization (A/m)” or “Magnetization {A[m(1)]}”, not just “A/m”. Do not label axes with a ratio of quantities and units. For example, write “Temperature (K)”, not “Temperature/K”.
+
+	\section{MÉTODOS} \label{sec:method}
+	
+	Os dados sumarizados na Tabela \ref{tab:analise_estatistica_dados} foram obtidos a partir de cálculos de transporte eletrônico em nanofitas de grafeno de diferentes configurações físicas. Ou seja, cálculos numéricos foram feitos para nanofitas com diferentes larguras, comprimentos, número de deformações gaussianas, distâncias entre as gaussianas e diferentes proporções entre base e altura das deformações. Os arquivos foram processados para gerar um único conjunto de dados.
+	
+	O conjunto dados foi normalizado para $[-0.9, 0.9]$ com o objetivo de acelerar a convergência durante o treinamento da rede neural \cite{lecun1993efficient}.
+	
+	Os dados pré-processados e normalizados foram ordenados de forma aleatória e divididos em conjunto de treinamento, validação e teste \cite{kearns1996bound}. A porcentagem de observações por conjunto foi de 60\%, 20\% e 20\%, para os conjuntos de treinamento, validação e teste, respectivamente. Os dados de teste permitem a avaliação das capacidades de generalização da rede neural. A performance da rede neural foi avaliada usando como critérios de desempenho a raiz quadrada do erro-médio (RMSE) e o coeficiente de determinação ($R^2$) sobre os conjuntos de dados de treinamento e teste.
+
+\begin{table}[!htb]
+\centering
+\caption{Descrição estatística dos dados}
+\label{tab:analise_estatistica_dados}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{rSSSSSSSS} 
+\toprule
+            \textbf{Propriedade} &  \textbf{Média}    & \textbf{Desvio Padrão}      & \textbf{Mínimo}     & \textbf{25\%}   & \textbf{50\%}    & \textbf{75\%}  &    \textbf{Máximo}  \\ 
+\midrule
+Energia        & 0.250    & 0.144   & 0.001  & 0.126   & 0.250    & 0.375    & 0.500         \\
+Condutância   & 8.281    & 7.392   & 0.601  & 2.115   & 6.331    & 12.786   & 48.922        \\
+Transmissão  & 0.673    & 0.182   & 0.491  & 0.539   & 0.579    & 0.735    & 1.000         \\
+\bm{$n_x$}          & 1257.763 & 769.007 & 40.000 & 801.000 & 1145.000 & 1801.000 & 3601.000      \\
+\bm{$n_y$}          & 73.814   & 20.949  & 20.000 & 70.000  & 70.000   & 70.000   & 150.000       \\
+\bm{$g_x$}          & 12.136   & 8.616   & 0.000  & 7.000   & 11.000   & 17.000   & 60.000        \\
+b             & 3.064    & 0.592   & 0.852  & 3.124   & 3.124    & 3.124    & 4.544         \\
+alfa         & 14.342   & 12.889  & 0.000  & 1.000   & 13.000   & 25.000   & 40.000        \\
+d_1            & 11.645   & 2.832   & 4.900  & 11.076  & 11.076   & 11.076   & 22.130        \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+	\section{RESULTADOS PARCIAIS} \label{sec:part_result}
+	A estrutura final do modelo da RNA possui 10 neurônios na camada oculta. A função de ativação da camada oculta e na camada de saída do modelo é a função tangente hiperbólica. A constante de momentum escolhida foi de $0.9$ e a taxa de aprendizado de $0.1$. O processo de treinamento foi conduzido utilizando o algoritmo padrão de retropropagação como procedimento de otimização, com pesos atualizados a cada vez que o conjunto completo de dados de treinamento foi considerado.
+    O modelo de RNA obteve um bom desempenho com $R^2$ de $\approx$ 0.99 e RMSE de no máximo $0.01$.
+
+% \begin{table}[h!]
+%     \centering
+%     \caption{Análise de $R^2$ e RMSE por conjunto de parâmetros da MLP; $\eta$: Taxa de aprendizado; N: Neurônios na camada oculta; C: Condutância; T: Transmissão; val: validação; tre: treino; tes: teste.}
+%     \label{tab:analise_performance_mlp.}
+%     \begin{adjustbox}{max width=\textwidth}
+%     \begin{tabular}{ S |  S | S | S | S | S | S | S | S }
+%     \toprule
+% 	\textbf{R2 [tre]} & \textbf{RMSE C. [tre]} & \textbf{RMSE T. [tre]} & \textbf{R2 [val]} & \textbf{RMSE C. [val]} & \textbf{RMSE T. [val]} & \textbf{R2 [tes]} & \textbf{RMSE C. [tes]} & \textbf{RMSE T. [tes]} \\ 
+% 	\midrule
+% 	0.999578 & 0.010472 & 0.009784 & 0.999588 & 0.010468 & 0.009692 & 0.999570 & 0.010711 & 0.009784 \\
+%     \bottomrule % <-- Bottomrule here
+%     \end{tabular}
+%     \end{adjustbox}
+% \end{table}
+
+	\section{CONCLUSÕES}
+
+Os resultados obtidos indicam que a rede neural do tipo perceptron de múltiplas camadas (RNA-MLP) é capaz de predizer/inferir propriedades como condutividade elétrica e transporte de vale de nanofitas de grafeno com diferentes configurações físicas.
+
+\bibliography{references}
+\bibliographystyle{unsrt}
+
+% 	\begin{thebibliography}{9}
+% 		\bibliographystyle{abbrv}
+% % 		\bibitem{Eason}
+% % 		G. Eason, B. Noble, and I. N. Sneddon,
+% % 		\newblock "On certain integrals of Lipschitz-Hankel type involving products of Bessel functions,” Phil. Trans. Roy. Soc. London, vol. A247, pp. 529–551, April 1955. (references)
+
+% % 		\bibitem{Clerk}
+% % 		J. Clerk Maxwell,
+% % 		\newblock A Treatise on Electricity and Magnetism, 3rd ed., vol. 2. Oxford: Clarendon, 1892, pp.68–73.
+		
+		
+% 	\end{thebibliography}
+
+\end{document}

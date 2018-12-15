@@ -1,31 +1,336 @@
-\documentclass{article}
-\usepackage[utf8]{inputenc}
+\documentclass{abntex2}[
+	% -- opções da classe memoir --
+	12pt,				% tamanho da fonte
+	openright,			% capítulos começam em pág ímpar (insere página vazia caso preciso)
+	twoside,			% para impressão em recto e verso. Oposto a oneside
+	a4paper,			% tamanho do papel. 
+	% -- opções da classe abntex2 --
+	chapter=TITLE,		% títulos de capítulos convertidos em letras maiúsculas
+	section=TITLE,		% títulos de seções convertidos em letras maiúsculas
+	subsection=TITLE,	% títulos de subseções convertidos em letras maiúsculas
+	subsubsection=TITLE,% títulos de subsubseções convertidos em letras maiúsculas
+	% -- opções do pacote babel --
+	english,			% idioma adicional para hifenização
+	brazil				% o último idioma é o principal do documento
+]
 
-\title{Example project}
-\author{71754067 }
-\date{October 2018}
+% ---
+% Pacotes básicos 
+% ---
+\usepackage{lmodern}			% Usa a fonte Latin Modern	
+\usepackage[T1]{fontenc}		% Selecao de codigos de fonte.
+\usepackage[utf8]{inputenc}		% Codificacao do documento (conversão automática dos acentos)
+\usepackage{lastpage}			% Usado pela Ficha catalográfica
+\usepackage{indentfirst}		% Indenta o primeiro parágrafo de cada seção.
+\usepackage{color}				% Controle das cores
+\usepackage{graphicx}			% Inclusão de gráficos
+\usepackage{microtype} 			% para melhorias de justificação
+\usepackage{mathtools}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{arrows}
+\usepackage{amsmath}
+% \usepackage{natbib}
+\usepackage{subcaption}
+\usepackage{longtable}
+\usepackage{booktabs} % For prettier tables
+\usepackage{siunitx} % Required for alignment
+\usepackage{bm} % Matemática em bold
+\usepackage{siunitx} % Required for alignment
+\usepackage{booktabs} % For prettier tables
+\usepackage{adjustbox}
+\usepackage{todonotes}
+\usepackage{float}
 
-\usepackage{natbib}
-\usepackage{graphicx}
+% \documentclass{article}
+
+% \usepackage{biblatex}
+% \addbibresource{references.bib}
+
+\sisetup{
+  round-mode          = places, % Rounds numbers
+  round-precision     = 2, % to 2 places
+}
+
+% ---
+% Pacotes de citações
+% ---
+\usepackage[brazilian,hyperpageref]{backref}	 % Paginas com as citações na bibl
+\usepackage[alf]{abntex2cite}	% Citações padrão ABNT
+
+% ---
+% Configurações de aparência do PDF final
+
+% alterando o aspecto da cor azul
+\definecolor{blue}{RGB}{41,5,195}
+
+% informações do PDF
+\makeatletter
+\hypersetup{
+     	%pagebackref=true,
+		pdftitle={\@title}, 
+		pdfauthor={\@author},
+    	pdfsubject={\imprimirpreambulo},
+	    pdfcreator={LaTeX with abnTeX2},
+		pdfkeywords={abnt}{latex}{abntex}{abntex2}{trabalho acadêmico}, 
+% 		colorlinks=true,       		% false: boxed links; true: colored links
+    	linkcolor=blue,          	% color of internal links
+    	citecolor=blue,        		% color of links to bibliography
+    	filecolor=magenta,      		% color of file links
+		urlcolor=blue,
+		bookmarksdepth=4
+}
+\makeatother
+% --- 
+
+% ---
+% Configurações do pacote backref
+% Usado sem a opção hyperpageref de backref
+\renewcommand{\backrefpagesname}{Citado na(s) página(s):~}
+% Texto padrão antes do número das páginas
+\renewcommand{\backref}{}
+% Define os textos da citação
+\renewcommand*{\backrefalt}[4]{
+	\ifcase #1 %
+		Nenhuma citação no texto.%
+	\or
+		Citado na página #2.%
+	\else
+		Citado #1 vezes nas páginas #2.%
+	\fi}%
+% --- 
+% Espaçamentos entre linhas e parágrafos 
+% --- 
+
+% O tamanho do parágrafo é dado por:
+\setlength{\parindent}{1.3cm}
+
+% Controle do espaçamento entre um parágrafo e outro:
+\setlength{\parskip}{0.2cm}  % tente também \onelineskip
+
+% ---
+% compila o indice
+% ---
+\makeindex
+% ---
+
+% ---
+% Informações de dados para CAPA e FOLHA DE ROSTO
+% ---
+\titulo{REDES NEURAIS ARTIFICIAIS PARA PREDIÇÃO DAS PROPRIEDADES DE TRANSPORTE DE VALE EM NANOFITAS DE GRAFENO}
+\autor{Pablo Rhuam Cavalcante Silva}
+\local{Brasil}
+\data{\today}
+\orientador{Dario Andres Bahamon Ardila}
+\coorientador{Leandro A. Silva}
+
+\instituicao{%
+  Universidade Presbiteriana Mackenzie
+  \par
+%   Faculdade de Arquitetura da Informação
+%   \par
+  Programa de Pós-Graduação em Engenharia Elétrica e Computação}
+\tipotrabalho{Dissertação (Mestrado)}
+% O preambulo deve conter o tipo do trabalho, o objetivo, 
+% o nome da instituição e a área de concentração 
+\preambulo{Dissertação apresentada à Universidade Presbiteriana Mackenzie como requisito parcial para a obtenção do título de Mestre em Engenharia Elétrica e Computação.}
+% ---
 
 \begin{document}
 
-\maketitle
+% Seleciona o idioma do documento (conforme pacotes do babel)
+%\selectlanguage{english}
+\selectlanguage{brazil}
 
-\section{Introduction}
-There is a theory which states that if ever anyone discovers exactly what the Universe is for and why it is here, it will instantly disappear and be replaced by something even more bizarre and inexplicable.
-There is another theory which states that this has already happened.
+% Retira espaço extra obsoleto entre as frases.
+\frenchspacing 
 
-\begin{figure}[h!]
-\centering
-\includegraphics[scale=1.7]{universe}
-\caption{The Universe}
-\label{fig:universe}
-\end{figure}
+\imprimircapa
 
-\section{Conclusion}
-``I always thought something was fundamentally wrong with the universe'' \citep{adams1995hitchhiker}
+\imprimirfolhaderosto*
 
-\bibliographystyle{plain}
-\bibliography{references}
+\begin{fichacatalografica}
+	\sffamily
+	\vspace*{\fill}					% Posição vertical
+	\begin{center}					% Minipage Centralizado
+	\fbox{\begin{minipage}[c][8cm]{13.5cm}		% Largura
+	\small
+	\imprimirautor
+	%Sobrenome, Nome do autor
+	
+	\hspace{0.5cm} \imprimirtitulo  / \imprimirautor. --
+	\imprimirlocal, \imprimirdata-
+	
+% 	\hspace{0.5cm} \pageref{LastPage} p. : il. (algumas color.) ; 30 cm.\\
+	
+	\hspace{0.5cm} \imprimirorientadorRotulo~\imprimirorientador\\ 
+    \hspace{0.5cm} \imprimircoorientadorRotulo~\imprimircoorientador\\
+	\hspace{0.5cm}
+	\parbox[t]{\textwidth}{\imprimirtipotrabalho~--~\imprimirinstituicao,
+	\imprimirdata.}\\
+	
+	\hspace{0.5cm}
+		1. grafeno
+		2. rede neural artificial
+		2. mlp
+		I. Orientador
+		II. Universidade Presbiteriana Mackenzie
+		III. Programa de Pós-Graduação em Engenharia Elétrica e Computação
+		IV. REDES NEURAIS ARTIFICIAIS PARA PREDIÇÃO DAS PROPRIEDADES DE TRANSPORTE DE VALE EM NANOFITAS DE GRAFENO 			
+	\end{minipage}}
+	\end{center}
+\end{fichacatalografica}
+% ---
+% Inserir folha de aprovação
+% ---
+\begin{folhadeaprovacao}
+
+  \begin{center}
+    {\ABNTEXchapterfont\large\imprimirautor}
+
+    \vspace*{\fill}\vspace*{\fill}
+    \begin{center}
+      \ABNTEXchapterfont\bfseries\Large\imprimirtitulo
+    \end{center}
+    \vspace*{\fill}
+    
+    \hspace{.45\textwidth}
+    \begin{minipage}{.5\textwidth}
+        \imprimirpreambulo
+    \end{minipage}%
+    \vspace*{\fill}
+   \end{center}
+        
+   Trabalho aprovado. \imprimirlocal, 24 de junho de 2019:
+
+   \assinatura{\textbf{\imprimirorientador} \\ Orientador 1} 
+   \assinatura{\textbf{\imprimircoorientador} \\ Coorientador} 
+   \assinatura{\textbf{Professor} \\ Convidado 1}
+   \assinatura{\textbf{Professor} \\ Convidado 2}
+   %\assinatura{\textbf{Professor} \\ Convidado 3}
+   %\assinatura{\textbf{Professor} \\ Convidado 4}
+      
+   \begin{center}
+    \vspace*{0.5cm}
+    {\large\imprimirlocal}
+    \par
+    {\large\imprimirdata}
+    \vspace*{1cm}
+  \end{center}
+  
+\end{folhadeaprovacao}
+
+% \begin{dedicatoria}
+%   \vspace*{\fill}
+%   \centering
+%   \noindent
+%   \textit{ Este trabalho é dedicado ...} \vspace*{\fill}
+% \end{dedicatoria}
+
+% \begin{agradecimentos}
+% txtxtxtxtxt
+
+% \end{agradecimentos}
+
+% \begin{epigrafe}
+%     \vspace*{\fill}
+% 	\begin{flushright}
+% % 		\textit{``Não vos amoldeis às estruturas deste mundo, \\
+% % 		mas transformai-vos pela renovação da mente, \\
+% % 		a fim de distinguir qual é a vontade de Deus: \\
+% % 		o que é bom, o que Lhe é agradável, o que é perfeito.\\
+% % 		(Bíblia Sagrada, Romanos 12, 2)}
+% 		\textit{``txt, \\
+% 		txt txt. \\
+% 		(Bíblia Sagrada, Romanos 12, 2)}
+% 	\end{flushright}
+% \end{epigrafe}
+
+\input{resumo.tex}
+
+% ---
+% inserir lista de ilustrações
+% ---
+\pdfbookmark[0]{\listfigurename}{lof}
+\listoffigures*
+\cleardoublepage
+% ---
+
+% ---
+% inserir lista de tabelas
+% ---
+\pdfbookmark[0]{\listtablename}{lot}
+\listoftables*
+\cleardoublepage
+% ---
+
+% ---
+% inserir lista de abreviaturas e siglas
+% ---
+\begin{siglas}
+%   \item[MLP] Multi Layer Perceptron
+%   \item[ANN] Artificial Neural Network
+    \item[RNA] Rede Neural Artificial
+    \item[RBF] Radial Base Function
+    \item[SVM] Support Vector Machine
+\end{siglas}
+% ---
+
+% ---
+% inserir lista de símbolos
+% ---
+\begin{simbolos}
+  \item[$ \Delta $] Letra grega maiúscula delta
+  \item[$ \delta $] Letra grega minúscula delta
+  \item[$ \lambda $] Letra grega minúscula lambda
+  \item[$ \alpha $] Letra grega minúscula alpha
+  \item[$ \eta $] Letra grega minúscula eta
+  \item[$ \phi $] Letra grega minúscula phi
+\end{simbolos}
+% ---
+
+% ---
+% inserir o sumário
+% ---
+\pdfbookmark[0]{\contentsname}{toc}
+\tableofcontents*
+\cleardoublepage
+% ---
+
+% ----------------------------------------------------------
+% ELEMENTOS TEXTUAIS
+% ----------------------------------------------------------
+\textual
+
+% ----------------------------------------------------------
+% Introdução (exemplo de capítulo sem numeração, mas presente no Sumário)
+% ----------------------------------------------------------
+
+\input{introducao.tex}
+
+\input{redes_neurais_artificiais.tex}
+
+\input{metodos.tex}
+
+\input{referencias_bibliograficas.tex}
+
+% ----------------------------------------------------------
+% Finaliza a parte no bookmark do PDF
+% para que se inicie o bookmark na raiz
+% e adiciona espaço de parte no Sumário
+% ----------------------------------------------------------
+\phantompart
+
+\postextual
+% ----------------------------------------------------------
+
+% ----------------------------------------------------------
+% Referências bibliográficas
+% ----------------------------------------------------------
+
+
+% \bibliographystyle{abnt-alf}
+\bibliography{references.bib}
+
 \end{document}
